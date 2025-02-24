@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +41,10 @@ public class SignInActivity extends AppCompatActivity {
     TextView signUpTextView;
     Button signInButton;
     Button googleSignInButton;
-    EditText phoneNumberField;
+    ProgressBar loadingSpinner;
     Button otpSignInButton;
+
+
     private GoogleSignInClient mGoogleSignInClient;
     private String mVerificationId;
 
@@ -57,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
         signUpTextView = findViewById(R.id.signUpTextView);
         signInButton = findViewById(R.id.signInButton);
         googleSignInButton = findViewById(R.id.googleSignInButton);
-        phoneNumberField = findViewById(R.id.phoneNumberField);
+        loadingSpinner = findViewById(R.id.loadingSpinner);
         otpSignInButton = findViewById(R.id.otpSignInButton);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -67,11 +70,15 @@ public class SignInActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         signInButton.setOnClickListener(v -> {
+            loadingSpinner.setVisibility(View.VISIBLE);
             signInWithEmailAndPassword();
+            loadingSpinner.setVisibility(View.GONE);
         });
 
         googleSignInButton.setOnClickListener(v -> {
+            loadingSpinner.setVisibility(View.VISIBLE);
             signInWithGoogle();
+            loadingSpinner.setVisibility(View.GONE);
         });
 
         otpSignInButton.setOnClickListener(v -> {
@@ -92,11 +99,13 @@ public class SignInActivity extends AppCompatActivity {
     private void signInWithEmailAndPassword() {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
-
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(SignInActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                         // Chuyển đến màn hình chính
                     } else {
                         Toast.makeText(SignInActivity.this, "Đăng nhập thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

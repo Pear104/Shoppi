@@ -52,6 +52,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.0.0") // Firebase Authentication
     implementation("com.google.android.gms:play-services-auth:21.0.0") // Google Sign-In
     implementation("com.google.gms:google-services:4.4.2")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("")
 //    implementation("")
 }

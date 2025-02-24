@@ -8,10 +8,19 @@
     android:orientation="vertical"
     tools:context=".authentication.SignInActivity">
 
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         android:text="Sign In"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -45,7 +54,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:text="Login"/>
+        android:text="Login" />
 
     <TextView
         android:id="@+id/signUpTextView"
@@ -91,6 +100,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:text="Signin with OTP"/>
+        android:text="Signin with OTP" />
+
 
 </LinearLayout>

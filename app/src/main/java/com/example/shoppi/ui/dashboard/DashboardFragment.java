@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shoppi.databinding.FragmentDashboardBinding;
 
+
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;

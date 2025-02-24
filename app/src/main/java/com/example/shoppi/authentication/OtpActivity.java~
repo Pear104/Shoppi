@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,8 @@ public class OtpActivity extends AppCompatActivity {
     EditText otpField;
     View otpForm;
     Button verifyButton;
+    Button resendButton;
+    private ProgressBar loadingSpinner;
 
 
     @Override
@@ -43,13 +46,12 @@ public class OtpActivity extends AppCompatActivity {
         otpField = findViewById(R.id.otpField);
         otpForm = findViewById(R.id.otpForm);
         verifyButton = findViewById(R.id.verifyButton);
+        resendButton = findViewById(R.id.resendButton);
+        loadingSpinner = findViewById(R.id.loadingSpinner);
 
         sendOtpButton.setOnClickListener(v -> {
             String phoneNumber = phoneNumberField.getText().toString();
-            phoneNumberField.setVisibility(View.INVISIBLE);
-            sendOtpButton.setVisibility(View.INVISIBLE);
-            otpField.setVisibility(View.VISIBLE);
-            verifyButton.setVisibility(View.VISIBLE);
+            loadingSpinner.setVisibility(View.VISIBLE);
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
                     phoneNumber,        // Số điện thoại dạng +84xxxxxxxxxx
                     60,                 // Timeout (giây)
@@ -70,6 +72,11 @@ public class OtpActivity extends AppCompatActivity {
                         public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
                             mVerificationId = verificationId;
                             Toast.makeText(OtpActivity.this, "Mã OTP đã gửi!", Toast.LENGTH_SHORT).show();
+                            loadingSpinner.setVisibility(View.GONE);
+                            phoneNumberField.setVisibility(View.GONE);
+                            sendOtpButton.setVisibility(View.GONE);
+                            otpField.setVisibility(View.VISIBLE);
+                            otpForm.setVisibility(View.VISIBLE);
                             // Hiển thị trường nhập OTP và nút xác nhận
                         }
                     });
@@ -79,6 +86,10 @@ public class OtpActivity extends AppCompatActivity {
             String otp = otpField.getText().toString();
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, otp);
             signInWithPhoneAuthCredential(credential);
+        });
+
+        resendButton.setOnClickListener(v -> {
+            sendOtpButton.performClick();
         });
 
     }

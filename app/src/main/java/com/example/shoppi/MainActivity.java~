@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
 //            Toast.makeText(this, "Đã đăng nhập: " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Đã đăng nhập: " + currentUser.getPhoneNumber(), Toast.LENGTH_SHORT).show();
         }
     }
 }
