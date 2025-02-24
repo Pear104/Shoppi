@@ -1,0 +1,1 @@
+<Button android:id="@+id/googleLoginButton" android:text="Login with Google"/>
