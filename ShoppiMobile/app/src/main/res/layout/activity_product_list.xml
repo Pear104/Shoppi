@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ProductListActivity"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="16dp">
+
+        <!-- Search Bar -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:cardBackgroundColor="@color/search_bg"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/search"
+                    android:src="@android:drawable/ic_menu_search"
+                    app:tint="@color/icon_color" />
+
+                <EditText
+                    android:id="@+id/search_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/search_products"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/hint_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Popular Products Section -->
+        <TextView
+            android:id="@+id/search_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Result of Electronic"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_bar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/products_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-14dp"
+            android:layout_marginTop="16dp"
+            android:clipToPadding="false"
+
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/search_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:spanCount="2"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_product" />
+
+        <!-- Special Offer -->
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/special_offer_card"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="120dp"-->
+        <!--            android:layout_marginTop="24dp"-->
+        <!--            app:cardCornerRadius="16dp"-->
+        <!--            app:cardElevation="4dp"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/products_recycler">-->
+
+        <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:background="@drawable/ic_launcher_foreground">-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/special_offer_title"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="16dp"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:layout_marginEnd="16dp"-->
+        <!--                    android:text="@string/special_offer"-->
+        <!--                    android:textColor="@android:color/white"-->
+        <!--                    android:textSize="20sp"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent"-->
+        <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/special_offer_subtitle"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="16dp"-->
+        <!--                    android:layout_marginTop="8dp"-->
+        <!--                    android:layout_marginEnd="16dp"-->
+        <!--                    android:text="@string/special_offer_description"-->
+        <!--                    android:textColor="@android:color/white"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@id/special_offer_title" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/shop_now_button"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="16dp"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:background="@drawable/button_bg"-->
+        <!--                    android:paddingHorizontal="16dp"-->
+        <!--                    android:text="@string/shop_now"-->
+        <!--                    android:textAllCaps="false"-->
+        <!--                    android:textColor="@color/accent_color"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent" />-->
+
+        <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <!--        </androidx.cardview.widget.CardView>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

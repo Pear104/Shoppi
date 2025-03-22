@@ -1,0 +1,155 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id            String        @id @default(uuid())
+    email         String        @unique
+    password      String
+    name          String
+    role          Role          @default(CUSTOMER)
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
+    orders        Order[]
+    reviews       Review[]
+    cart          Cart?
+    sentMessages  Message[]     @relation("SentMessages")
+    inboxMessages Message[]     @relation("ReceivedMessages")
+    sentChats     ChatMessage[] @relation("SentChatMessages")
+    receivedChats ChatMessage[] @relation("ReceivedChatMessages")
+    ChatMessage   ChatMessage[]
+}
+
+enum Role {
+    ADMIN
+    CUSTOMER
+}
+
+model Category {
+    id        String    @id @default(uuid())
+    name      String    @unique
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    products  Product[]
+}
+
+model Product {
+    id          String      @id @default(uuid())
+    name        String
+    description String      @db.Text
+    price       Float
+    stock       Int
+    imageUrl    String?
+    categoryId  String
+    category    Category    @relation(fields: [categoryId], references: [id])
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    cartItems   CartItem[]
+    orderItems  OrderItem[]
+    reviews     Review[]
+}
+
+model Cart {
+    id        String     @id @default(uuid())
+    userId    String     @unique
+    user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    items     CartItem[]
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+    id        String   @id @default(uuid())
+    cartId    String
+    cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    productId String
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    quantity  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([cartId, productId])
+}
+
+model Order {
+    id          String      @id @default(uuid())
+    userId      String
+    user        User        @relation(fields: [userId], references: [id])
+    items       OrderItem[]
+    status      OrderStatus @default(PENDING)
+    totalAmount Float
+    address     String      @db.Text
+    phoneNumber String
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
+    id        String   @id @default(uuid())
+    orderId   String
+    order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    productId String
+    product   Product  @relation(fields: [productId], references: [id])
+    quantity  Int
+    price     Float
+    review    Review?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+    PENDING
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELLED
+    COMPLETED
+}
+
+model Review {
+    id          String    @id @default(uuid())
+    userId      String
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    productId   String
+    product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+    orderItemId String    @unique
+    orderItem   OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+    rating      Int
+    comment     String?   @db.Text
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@unique([userId, productId])
+}
+
+model Message {
+    id         String   @id @default(uuid())
+    content    String   @db.Text
+    senderId   String
+    sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+    receiverId String
+    receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+    isRead     Boolean  @default(false)
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+}
+
+model ChatMessage {
+    id         String   @id @default(uuid())
+    content    String
+    user       User     @relation("SentChatMessages", fields: [userId], references: [id], map: "ChatMessage_sender_fkey")
+    receiver   User     @relation("ReceivedChatMessages", fields: [receiverId], references: [id], map: "ChatMessage_receiver_fkey")
+    userId     String
+    receiverId String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    User       User     @relation(fields: [userId], references: [id])
+
+    @@index([userId])
+    @@index([receiverId])
+}

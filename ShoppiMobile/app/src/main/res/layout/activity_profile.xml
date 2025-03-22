@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:paddingHorizontal="16dp"
+    tools:context=".view.ProfileActivity">
+
+    <!-- Profile Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:background="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <!-- Profile Picture -->
+            <ImageView
+                android:id="@+id/imageViewAvatar"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@drawable/ic_profile"
+                android:padding="6dp"
+                android:background="@drawable/bg_message_received"
+                android:contentDescription="Profile Picture"
+                android:scaleType="centerCrop"
+                android:elevation="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- User Name -->
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Nguyen Van A"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryTextColor"
+                app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"
+                app:layout_constraintTop_toTopOf="@+id/imageViewAvatar"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Email -->
+            <TextView
+                android:id="@+id/textViewEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:text="client@gmail.com"
+                android:textSize="14sp"
+                android:textColor="@color/secondaryTextColor"
+                app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"
+                app:layout_constraintTop_toBottomOf="@+id/textViewName"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- User Role -->
+            <TextView
+                android:id="@+id/textViewRole"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:text="CUSTOMER"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEmail"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- User ID -->
+            <TextView
+                android:id="@+id/textViewId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="ID: 4cc972f1-04cd-4c7f-8e63-2603fa022a39"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- View Orders Button -->
+    <Button
+        android:id="@+id/buttonViewOrders"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/primary_text"
+        android:text="View Orders"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:padding="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewProfile" />
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:text="Logout"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        android:padding="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonViewOrders" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

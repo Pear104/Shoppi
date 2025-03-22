@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Shoppi</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="search">Search</string>
+    <string name="search_products">Search products…</string>
+    <string name="categories">Categories</string>
+    <string name="view_all">View All</string>
+    <string name="popular_products">Popular Products</string>
+    <string name="special_offer">Special Offer</string>
+    <string name="special_offer_description">Get 20% off on all electronic products this week!</string>
+    <string name="shop_now">Chat Now</string>
+    <string name="recently_viewed">Recently Viewed</string>
+    <string name="category_image">Category image</string>
+    <string name="product_image">Product image</string>
+    <string name="favorite">Favorite</string>
+    <string name="ip_address">192.168.1.5</string>
+    <string name="admin_id">b9bb5526-6b10-47f5-993d-7f6ba595a554</string>
+
+</resources>
