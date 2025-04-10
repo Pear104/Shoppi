@@ -1,6 +1,8 @@
 package com.example.shoppimobile.service;
 
+import com.example.shoppimobile.model.DashboardStats;
 import com.example.shoppimobile.model.Order;
+import com.example.shoppimobile.model.RevenueData;
 
 import java.util.List;
 
@@ -23,4 +25,10 @@ public interface OrderService {
 
     @PUT("orders/{orderId}/status")
     Call<Order> updateOrder(@Path("orderId") String orderId, @Body Order order);
+    
+    @GET("orders/dashboard/stats")
+    Call<DashboardStats> getDashboardStats();
+    
+    @GET("orders/dashboard/revenue")
+    Call<List<RevenueData>> getRevenueData();
 } 

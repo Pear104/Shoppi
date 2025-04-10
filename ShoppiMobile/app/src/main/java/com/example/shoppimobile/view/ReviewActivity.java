@@ -284,10 +284,4 @@ public class ReviewActivity extends AppCompatActivity {
         btnUpdateReview.setEnabled(!isLoading);
         btnCancel.setEnabled(!isLoading);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

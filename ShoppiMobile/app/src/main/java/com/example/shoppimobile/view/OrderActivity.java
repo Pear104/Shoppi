@@ -91,10 +91,4 @@ public class OrderActivity extends AppCompatActivity {
         super.onResume();
         loadOrders();
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

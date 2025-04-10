@@ -49,6 +49,11 @@ dependencies {
         "include" to listOf("*.aar", "*.jar"),
         "exclude" to listOf("")
     )))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\workspace\\projects\\group\\project\\Shoppi\\ShoppiMobile\\app\\libs",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -68,5 +73,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth") // Firebase Authentication
     implementation("com.google.android.gms:play-services-auth:21.0.0") // Google Sign-In
 
-
+    // MPAndroidChart for dashboard charts
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

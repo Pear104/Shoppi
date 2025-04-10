@@ -3,7 +3,9 @@ package com.example.shoppimobile.repository;
 import android.content.Context;
 
 import com.example.shoppimobile.factory.APIClient;
+import com.example.shoppimobile.model.DashboardStats;
 import com.example.shoppimobile.model.Order;
+import com.example.shoppimobile.model.RevenueData;
 import com.example.shoppimobile.service.OrderService;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class OrderRepository {
     }
 
     public Call<Order> createOrder(Order order) {
-        return orderService.createOrder( order);
+        return orderService.createOrder(order);
     }
 
     public Call<List<Order>> getOrders() {
@@ -33,5 +35,13 @@ public class OrderRepository {
 
     public Call<Order> updateOrder(String orderId, Order order) {
         return orderService.updateOrder(orderId, order);
+    }
+    
+    public Call<DashboardStats> getDashboardStats() {
+        return orderService.getDashboardStats();
+    }
+    
+    public Call<List<RevenueData>> getRevenueData() {
+        return orderService.getRevenueData();
     }
 } 

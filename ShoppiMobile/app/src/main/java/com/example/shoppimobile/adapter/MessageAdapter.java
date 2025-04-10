@@ -100,14 +100,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             messageText = itemView.findViewById(R.id.text_message_body);
             timeText = itemView.findViewById(R.id.text_message_time);
-            nameText = itemView.findViewById(R.id.text_message_name);
+//            nameText = itemView.findViewById(R.id.text_message_name);
         }
 
         void bind(Message message) {
             messageText.setText(message.getContent());
 //            timeText.setText(timeFormat.format(new Date(message.getTimestamp())));
             timeText.setText(timeFormat.format(new Date()));
-            nameText.setText("Support Agent");
+//            nameText.setText("Support Agent");
         }
     }
 } 

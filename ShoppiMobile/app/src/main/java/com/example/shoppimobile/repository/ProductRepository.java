@@ -27,4 +27,12 @@ public class ProductRepository {
     public Call<Product> getProductById(String productId) {
         return productService.getProductById(productId);
     }
+
+    public Call<Product> createProduct(Product product) {
+        return productService.createProduct(product);
+    }
+
+    public Call<Product> updateProduct(String productId, Product product) {
+        return productService.updateProduct(productId, product);
+    }
 }

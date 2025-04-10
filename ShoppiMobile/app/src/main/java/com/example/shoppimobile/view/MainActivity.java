@@ -35,8 +35,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList productList = new ArrayList<Product>();
-    private List<Category> categoryList = new ArrayList<Category>();
+    private List<Product> productList = new ArrayList();
+    private List<Category> categoryList = new ArrayList();
     private ProductRepository productRepository;
     private ProductAdapter productAdapter;
     private CategoryRepository categoryRepository;
@@ -124,9 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         TextView cartBadge = findViewById(R.id.cartBadge);
                         cartBadge.setText(String.valueOf(response.body().size()));
                     } else {
-                        Toast.makeText(MainActivity.this,
-                                "Failed to load cart items",
-                                Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Fail to load cart items");
                     }
                 }
 
@@ -144,13 +142,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadProducts() {
         // Load products from API
-        Call<List<Product>> call = productRepository.getProducts("","");
-
+        Call<List<Product>> call = productRepository.getProducts("", "");
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Product> products = response.body();
+                    productList.clear();
                     productList.addAll(products);
                     productAdapter.notifyDataSetChanged();
                 } else {
@@ -238,11 +236,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadCartItems();
+        loadProducts();
     }
 }
 
 // [x] Có Database, API
-// [x] Có signup, login, google 
+// [x] Có signup, login
 // [x] Có liệt kê danh sách sản phẩm
 // [x] Có màn hình chi tiết sản phẩm
 // [x] Có màn hình cart

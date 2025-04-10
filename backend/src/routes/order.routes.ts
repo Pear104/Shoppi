@@ -5,6 +5,8 @@ import {
   getOrderById,
   updateOrderStatus,
   cancelOrder,
+  getDashboardStats,
+  getRevenueData,
 } from "../controllers/order.controller";
 import { authenticate, authorizeAdmin } from "../middleware/auth.middleware";
 
@@ -256,5 +258,59 @@ export const orderRoutes = async (fastify: FastifyInstance) => {
       },
     },
     cancelOrder
+  );
+
+  // Get dashboard statistics (admin only)
+  fastify.get(
+    "/dashboard/stats",
+    {
+      preHandler: authorizeAdmin,
+      schema: {
+        tags: ["Dashboard"],
+        security: [{ bearerAuth: [] }],
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              totalRevenue: { type: "number" },
+              totalOrders: { type: "integer" },
+              todayRevenue: { type: "number" },
+            },
+          },
+        },
+      },
+    },
+    getDashboardStats
+  );
+
+  // Get revenue data (admin only)
+  fastify.get(
+    "/dashboard/revenue",
+    {
+      preHandler: authorizeAdmin,
+      schema: {
+        tags: ["Dashboard"],
+        security: [{ bearerAuth: [] }],
+        querystring: {
+          type: "object",
+          properties: {
+            days: { type: "integer", default: 7 },
+          },
+        },
+        response: {
+          200: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                date: { type: "string", format: "date" },
+                amount: { type: "number" },
+              },
+            },
+          },
+        },
+      },
+    },
+    getRevenueData
   );
 };

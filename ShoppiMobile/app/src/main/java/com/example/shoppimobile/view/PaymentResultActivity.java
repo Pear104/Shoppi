@@ -84,17 +84,4 @@ public class PaymentResultActivity extends AppCompatActivity {
             finish();
         });
     }
-
-    @Override
-    public void onBackPressed() {
-        boolean isSuccessful = getIntent().getBooleanExtra("EXTRA_PAYMENT_SUCCESSFUL", false);
-        if (isSuccessful) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        } else {
-            super.onBackPressed();
-        }
-    }
 }

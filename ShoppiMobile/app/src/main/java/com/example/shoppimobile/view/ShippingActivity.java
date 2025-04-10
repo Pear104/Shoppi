@@ -41,7 +41,7 @@ import vn.zalopay.sdk.ZaloPaySDK;
 
 public class ShippingActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private static final String TAG = "CheckoutActivity";
+    private static final String TAG = "ShippingActivity";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private GoogleMap mMap;
@@ -209,70 +209,10 @@ public class ShippingActivity extends AppCompatActivity implements OnMapReadyCal
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
                 Log.e(TAG, "Failed to place order" + t.getMessage());
-                Log.e(TAG, "Failed to place order" + t.getLocalizedMessage());
                 Toast.makeText(ShippingActivity.this, "Failed to place order", Toast.LENGTH_SHORT).show();
                 placeOrderButton.setEnabled(true);
                 placeOrderButton.setText("Place Order");
             }
         });
-
-        //> ZaloPay
-        // ExecutorService executor = Executors.newSingleThreadExecutor();
-        // Handler handler = new Handler(Looper.getMainLooper());
-        // CreateOrder orderApi = new CreateOrder();
-        // executor.execute(() -> {
-        //     // Background work
-        //     JSONObject data = null;
-        //     try {
-        //         data = orderApi.createOrder(String.valueOf(1000));
-        //     } catch (Exception e) {
-        //         Log.e("Error", e.toString());
-        //     }
-
-        //     // UI Thread work
-        //     JSONObject finalData = data;
-        //     handler.post(() -> {
-        //         if (finalData != null) {
-        //             try {
-        //                 String code = finalData.getString("return_code");
-        //                 if (code.equals("1")) {
-        //                     String token = finalData.getString("zp_trans_token");
-        //                     // Get zp_trans_token for move to zalopay app and payment
-        //                     ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
-        //                         @Override
-        //                         public void onPaymentSucceeded(String s, String s1, String s2) {
-        //                             Intent intent1 = new Intent(CheckoutActivity.this, ProfileActivity.class);
-        //                             intent1.putExtra("result", "Thanh toán thành công");
-        //                             startActivity(intent1);
-        //                         }
-
-        //                         @Override
-        //                         public void onPaymentCanceled(String s, String s1) {
-        //                             Intent intent1 = new Intent(CheckoutActivity.this, ProfileActivity.class);
-        //                             intent1.putExtra("result", "Hủy thanh toán");
-        //                             startActivity(intent1);
-        //                         }
-
-        //                         @Override
-        //                         public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-        //                             Intent intent1 = new Intent(CheckoutActivity.this, ProfileActivity.class);
-        //                             intent1.putExtra("result", "Lỗi thanh toán");
-        //                             startActivity(intent1);
-        //                         }
-        //                     });
-        //                 }
-        //             } catch (Exception e) {
-        //                 Log.e("Error", e.toString());
-        //                 placeOrderButton.setEnabled(true);
-        //                 placeOrderButton.setText("Place Order");
-        //                 Toast.makeText(CheckoutActivity.this, "Error processing payment", Toast.LENGTH_SHORT).show();
-        //             }
-        //         } else {
-        //             placeOrderButton.setEnabled(true);
-        //             placeOrderButton.setText("Place Order");
-        //             Toast.makeText(CheckoutActivity.this, "Error creating order", Toast.LENGTH_SHORT).show();
-        //         }
-        //     });
-        // });
     }
 }

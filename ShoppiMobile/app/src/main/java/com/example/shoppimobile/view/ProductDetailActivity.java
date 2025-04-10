@@ -113,7 +113,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void updatePrice() {
         TextView priceView = findViewById(R.id.product_price);
         double totalPrice = product.getPrice() * quantity;
-        priceView.setText(String.format("$%.2f", totalPrice));
+        priceView.setText(String.format("%.2f PI", totalPrice));
     }
 
     private void loadProductDetails(String productId) {
@@ -196,38 +196,5 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void loadReviews() {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-
-//            List<Review> sampleReviews = product.getReviews();
-//            sampleReviews.add(new Review(
-//                    "4b1df4c6-99c3-4447-8ced-907db9887438",
-//                    4,
-//                    "Great product, exactly as described!",
-//                    "42ed1e2a-4ac5-4d65-9da6-997353e7a11b",
-//                    "42ed1e2a-4ac5-4d65-9da6-997353e7a11b",
-//            ));
-            Log.d(TAG, "onCreate: Review after" + reviews.size());
-
-            reviews.clear();
-            reviews.addAll(product.getReviews());
-            reviewAdapter.notifyDataSetChanged();
-
-            View noReviewsText = findViewById(R.id.no_reviews_text);
-            View reviewsRecyclerView = findViewById(R.id.reviews_recycler_view);
-
-            if (reviews.isEmpty()) {
-                noReviewsText.setVisibility(View.VISIBLE);
-                reviewsRecyclerView.setVisibility(View.GONE);
-            } else {
-                noReviewsText.setVisibility(View.GONE);
-                reviewsRecyclerView.setVisibility(View.VISIBLE);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 }

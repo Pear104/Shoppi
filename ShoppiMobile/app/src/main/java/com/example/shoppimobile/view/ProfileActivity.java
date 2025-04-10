@@ -3,6 +3,8 @@ package com.example.shoppimobile.view;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,7 +20,9 @@ import com.example.shoppimobile.model.User;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView textViewName, textViewEmail, textViewRole, textViewId;
-    private Button buttonViewOrders, buttonLogout;
+    private Button buttonViewOrders,buttonViewDashboard,buttonManage, buttonLogout;
+
+    private static final String TAG = "ProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
         textViewRole = findViewById(R.id.textViewRole);
         textViewId = findViewById(R.id.textViewId);
         buttonViewOrders = findViewById(R.id.buttonViewOrders);
+        buttonViewDashboard = findViewById(R.id.buttonViewDashboard);
+        buttonManage = findViewById(R.id.buttonManage);
         buttonLogout = findViewById(R.id.buttonLogout);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -45,32 +51,36 @@ public class ProfileActivity extends AppCompatActivity {
         String id = sharedPreferences.getString("id", "");
 
         User.Role userRole = User.Role.CUSTOMER;
-        if (role.equals("admin")) {
+        Log.d(TAG, role);
+        if (role.toLowerCase().equals("admin")) {
             userRole = User.Role.ADMIN;
+            buttonManage.setVisibility(View.VISIBLE);
+            buttonViewDashboard.setVisibility(View.VISIBLE);
         }
 
-        User user = new User(
-                id,
-                email,
-                name,
-                userRole
-        );
+        User user = new User(id, email, name, userRole);
 
         textViewName.setText(user.getName());
         textViewEmail.setText(user.getEmail());
         textViewRole.setText(user.getRole());
         textViewId.setText("ID: " + user.getId());
 
+        buttonViewDashboard.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, DashboardActivity.class);
+            startActivity(intent);
+        });
 
-        Button viewCart = findViewById(R.id.buttonViewOrders);
-        Button logout = findViewById(R.id.buttonLogout);
+        buttonManage.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, ManageProductActivity.class);
+            startActivity(intent);
+        });
 
-        viewCart.setOnClickListener(v -> {
+        buttonViewOrders.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, OrderActivity.class);
             startActivity(intent);
         });
 
-        logout.setOnClickListener(v -> {
+        buttonLogout.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, SignInActivity.class);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();

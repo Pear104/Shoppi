@@ -127,7 +127,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderItemsCount.setText(itemCount + (itemCount == 1 ? " item" : " items"));
 
             // Set total amount
-            orderTotal.setText(String.format("$%.2f", order.getTotalAmount()));
+            orderTotal.setText(String.format("%.2f PI", order.getTotalAmount()));
 
             // Set click listener for view details button
             viewDetailsButton.setOnClickListener(v -> {

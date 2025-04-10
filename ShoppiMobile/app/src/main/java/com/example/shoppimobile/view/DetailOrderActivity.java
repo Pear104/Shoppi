@@ -103,54 +103,65 @@ public class DetailOrderActivity extends AppCompatActivity {
 
         buttonCheckout.setOnClickListener((View view) -> {
             CreateOrder orderApi = new CreateOrder();
-            try {
-                String totalString = String.format("%.0f", order.getTotalAmount() * 1000);
-                JSONObject data = orderApi.createOrder(totalString);
-                String code = data.getString("return_code");
-                if (code.equals("1")) {
-                    String token = data.getString("zp_trans_token");
-                    // Get zp_trans_token for move to zalopay app and payment
-                    ZaloPaySDK.getInstance().payOrder(this, token, "demozpdk://app", new PayOrderListener() {
-                        @Override
-                        public void onPaymentSucceeded(String s, String s1, String s2) {
-                            Log.d(TAG, "String s: " + s);
-                            Log.d(TAG, "String s1: " + s1);
-                            Log.d(TAG, "String s2: " + s2);
-                            Log.d(TAG, "String orderId: " + orderId);
+            Call<Order> call = orderRepository.updateOrder(orderId, new Order("COMPLETED"));
+            call.enqueue(new Callback<Order>() {
+                @Override
+                public void onResponse(Call<Order> call, Response<Order> response) {}
 
-                            Call<Order> call = orderRepository.updateOrder(orderId, new Order("COMPLETED"));
-                            call.enqueue(new Callback<Order>() {
-                                @Override
-                                public void onResponse(Call<Order> call, Response<Order> response) {}
-
-                                @Override
-                                public void onFailure(Call<Order> call, Throwable t) {}
-                            });
-                            Intent intent = new Intent(DetailOrderActivity.this, PaymentResultActivity.class);
-                            intent.putExtra("EXTRA_PAYMENT_SUCCESSFUL", true);
-                            intent.putExtra("ORDER_ID", orderId);
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onPaymentCanceled(String s, String s1) {
-                            Intent intent1 = new Intent(DetailOrderActivity.this, PaymentResultActivity.class);
-                            intent.putExtra("EXTRA_PAYMENT_SUCCESSFUL", false);
-                            startActivity(intent1);
-                        }
-
-                        @Override
-                        public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-                            Intent intent1 = new Intent(DetailOrderActivity.this, PaymentResultActivity.class);
-                            intent.putExtra("EXTRA_PAYMENT_SUCCESSFUL", false);
-                            startActivity(intent1);
-                        }
-                    });
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                Log.d("Error: ", ex.getMessage());
-            }
+                @Override
+                public void onFailure(Call<Order> call, Throwable t) {}
+            });
+            Intent intent1 = new Intent(DetailOrderActivity.this, PaymentResultActivity.class);
+            intent1.putExtra("EXTRA_PAYMENT_SUCCESSFUL", true);
+            startActivity(intent1);
+//            try {
+//                String totalString = String.format("%.0f", order.getTotalAmount() * 1000);
+//                JSONObject data = orderApi.createOrder(totalString);
+//                String code = data.getString("return_code");
+//                if (code.equals("1")) {
+//                    String token = data.getString("zp_trans_token");
+//                    // Get zp_trans_token for move to zalopay app and payment
+//                    ZaloPaySDK.getInstance().payOrder(this, token, "demozpdk://app", new PayOrderListener() {
+//                        @Override
+//                        public void onPaymentSucceeded(String s, String s1, String s2) {
+//                            Log.d(TAG, "String s: " + s);
+//                            Log.d(TAG, "String s1: " + s1);
+//                            Log.d(TAG, "String s2: " + s2);
+//                            Log.d(TAG, "String orderId: " + orderId);
+//
+//                            Call<Order> call = orderRepository.updateOrder(orderId, new Order("COMPLETED"));
+//                            call.enqueue(new Callback<Order>() {
+//                                @Override
+//                                public void onResponse(Call<Order> call, Response<Order> response) {}
+//
+//                                @Override
+//                                public void onFailure(Call<Order> call, Throwable t) {}
+//                            });
+//                            Intent intent = new Intent(DetailOrderActivity.this, PaymentResultActivity.class);
+//                            intent.putExtra("EXTRA_PAYMENT_SUCCESSFUL", true);
+//                            intent.putExtra("ORDER_ID", orderId);
+//                            startActivity(intent);
+//                        }
+//
+//                        @Override
+//                        public void onPaymentCanceled(String s, String s1) {
+//                            Intent intent1 = new Intent(DetailOrderActivity.this, PaymentResultActivity.class);
+//                            intent.putExtra("EXTRA_PAYMENT_SUCCESSFUL", false);
+//                            startActivity(intent1);
+//                        }
+//
+//                        @Override
+//                        public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+//                            Intent intent1 = new Intent(DetailOrderActivity.this, PaymentResultActivity.class);
+//                            intent.putExtra("EXTRA_PAYMENT_SUCCESSFUL", false);
+//                            startActivity(intent1);
+//                        }
+//                    });
+//                }
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//                Log.d("Error: ", ex.getMessage());
+//            }
         });
     }
 
@@ -255,9 +266,4 @@ public class DetailOrderActivity extends AppCompatActivity {
         total.setText(String.format("%.2f PI", totalValue));
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

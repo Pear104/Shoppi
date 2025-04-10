@@ -17,7 +17,7 @@
     <string name="category_image">Category image</string>
     <string name="product_image">Product image</string>
     <string name="favorite">Favorite</string>
-    <string name="ip_address">192.168.1.5</string>
+    <string name="ip_address">192.168.1.10</string>
     <string name="admin_id">b9bb5526-6b10-47f5-993d-7f6ba595a554</string>
 
 </resources>

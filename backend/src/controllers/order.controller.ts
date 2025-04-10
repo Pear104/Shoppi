@@ -252,3 +252,123 @@ export const cancelOrder = async (
     return reply.status(500).send({ error: "Internal Server Error" });
   }
 };
+
+export const getDashboardStats = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    // Calculate total revenue from all orders
+    const totalRevenueResult = await prisma.order.aggregate({
+      _sum: {
+        totalAmount: true,
+      },
+      where: {
+        status: {
+          not: "CANCELLED",
+        },
+      },
+    });
+
+    // Calculate total number of orders
+    const totalOrders = await prisma.order.count({
+      where: {
+        status: {
+          not: "CANCELLED",
+        },
+      },
+    });
+
+    // Calculate today's revenue
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const todayRevenueResult = await prisma.order.aggregate({
+      _sum: {
+        totalAmount: true,
+      },
+      where: {
+        createdAt: {
+          gte: today,
+        },
+        status: {
+          not: "CANCELLED",
+        },
+      },
+    });
+
+    const dashboardStats = {
+      totalRevenue: totalRevenueResult._sum.totalAmount || 0,
+      totalOrders,
+      todayRevenue: todayRevenueResult._sum.totalAmount || 0,
+    };
+
+    return reply.send(dashboardStats);
+  } catch (error) {
+    request.log.error(error);
+    return reply.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+export const getRevenueData = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    // Get query parameters for date range (default: last 7 days)
+    const { days = 7 } = request.query as { days?: number };
+
+    // Calculate start date
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+    startDate.setHours(0, 0, 0, 0);
+
+    // Get all orders within the date range
+    const orders = await prisma.order.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+        },
+        status: {
+          not: "CANCELLED",
+        },
+      },
+      select: {
+        totalAmount: true,
+        createdAt: true,
+      },
+    });
+
+    // Create a map to store revenue by date
+    const revenueByDate = new Map();
+
+    // Initialize the map with all dates in the range
+    for (let i = 0; i < days; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      date.setHours(0, 0, 0, 0);
+      const dateString = date.toISOString().split("T")[0];
+      revenueByDate.set(dateString, 0);
+    }
+
+    // Group orders by date and sum the revenue
+    orders.forEach((order) => {
+      const dateString = order.createdAt.toISOString().split("T")[0];
+      const currentAmount = revenueByDate.get(dateString) || 0;
+      revenueByDate.set(dateString, currentAmount + order.totalAmount);
+    });
+
+    // Convert to array format expected by the client
+    const revenueData = Array.from(revenueByDate.entries())
+      .map(([date, amount]) => ({
+        date,
+        amount: parseFloat(amount.toFixed(2)),
+      }))
+      .sort((a, b) => a.date.localeCompare(b.date)); // Sort by date
+
+    return reply.send(revenueData);
+  } catch (error) {
+    request.log.error(error);
+    return reply.status(500).send({ error: "Internal Server Error" });
+  }
+};
